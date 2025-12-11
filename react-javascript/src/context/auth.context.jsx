@@ -18,11 +18,14 @@ export const AuthProvider = ({ children }) => {
             role: "",
         }
     })
+    const [appLoading, setAppLoading] = useState(false);
 
     return (
         <AuthContext.Provider value={{
             auth,
-            setAuth
+            setAuth,
+            appLoading,
+            setAppLoading
         }}>
             {children}
         </AuthContext.Provider>
