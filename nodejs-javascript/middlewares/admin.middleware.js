@@ -1,6 +1,10 @@
-// middleware
 const adminMiddleware = (req, res, next) => {
-    // check role and redirect...
+    if (req.info.role !== "admin") {
+        return res.status(403).json({
+            success: false,
+            message: `Access denied! Admin rights required.`
+        });
+    }
 
     next();
 };
