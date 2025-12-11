@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
         required: [true, "Avatar is required."]
+    },
+    avatarPublicId: {
+        type: String,
+        unique: true
     }
 }, {
     timestamps: true,
