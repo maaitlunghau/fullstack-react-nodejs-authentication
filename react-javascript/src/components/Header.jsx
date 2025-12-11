@@ -1,12 +1,10 @@
-import { AuthContext } from "@/context/auth.context";
+import { useAuth } from "@/hooks/useAuth";
 import { Home, LogIn, OutdentIcon, Package, Settings, SignalIcon } from "lucide-react"
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom";
 
 export default function Header() {
-    const { auth, setAuth } = useContext(AuthContext);
-
-    console.log(">>> auth: ", auth);
+    const { auth, setAuth } = useAuth();
 
     const items = [
         {
