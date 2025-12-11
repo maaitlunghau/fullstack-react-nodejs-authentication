@@ -1,5 +1,8 @@
+require("dotenv").config();
+
 const User = require("../models/User");
-const { registerService, loginService } = require("../services/auth.services");
+const jwt = require("jsonwebtoken");
+const { registerService, loginService, generateAccessToken } = require("../services/auth.services");
 
 
 const register = async (req, res) => {
@@ -20,7 +23,6 @@ const register = async (req, res) => {
         })
     }
 }
-
 
 const login = async (req, res) => {
     try {
@@ -52,7 +54,6 @@ const login = async (req, res) => {
     }
 }
 
-
 const logout = async (req, res) => {
     try {
 
@@ -65,9 +66,40 @@ const logout = async (req, res) => {
     }
 }
 
+const refreshToken = async (req, res) => {
+    const token = req.cookies.refreshToken;
+    if (!token) {
+        return res.status(401).json({
+            message: "No refresh token!"
+        })
+    }
+
+    try {
+        const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+        const user = await User.findById(payload.userId);
+        if (!user) return res.status(401).json({
+            message: "User not found!"
+        })
+
+        const newAccessToken = generateAccessToken(user);
+
+        return res.status(200).json({
+            success: true,
+            message: "✅ Refreshed token succeed",
+            accessToken: newAccessToken
+        });
+
+    } catch (err) {
+        return res.status(403).json({
+            message: "Invalid refresh token"
+        })
+    }
+}
+
 
 module.exports = {
     register,
     login,
     logout,
+    refreshToken
 }

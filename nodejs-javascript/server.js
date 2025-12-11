@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const { PORT } = require("./constants");
 const rootRouter = require("./routes/root.route");
@@ -22,6 +23,7 @@ app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }));
+app.use(cookieParser());
 
 // connect to mongodb database and cloudinary
 connectDB();

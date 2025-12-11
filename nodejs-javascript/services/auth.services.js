@@ -30,6 +30,33 @@ const registerService = async (data) => {
     });
 }
 
+const generateAccessToken = (user) => {
+    jwt.sign(
+        {
+            userId: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+        },
+        process.env.JWT_SECRET_KEY,
+        {
+            expiresIn: "30m"
+        }
+    );
+}
+
+const generateRefreshToken = (user) => {
+    jwt.sign(
+        {
+            userId: user._id
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: "7d"
+        }
+    );
+}
+
 const loginService = async (data) => {
     const { email, password } = data;
 
@@ -47,17 +74,16 @@ const loginService = async (data) => {
         throw error;
     }
 
-    const accessToken = jwt.sign(
-        {
-            userId: user._id,
-            username: user.username,
-            email: user.email,
-            role: user.role
-        },
-        process.env.JWT_SECRET_KEY,
-        {
-            expiresIn: "30m"
-        })
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    // send refresh token HttpOnly cookie
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7d
+    });
 
     return {
         user: {
@@ -72,5 +98,6 @@ const loginService = async (data) => {
 
 module.exports = {
     registerService,
-    loginService
+    loginService,
+    generateAccessToken
 }
