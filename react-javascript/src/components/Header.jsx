@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 export default function Header() {
     const items = [
         {
-            label: "Home",
+            label: "Trang chủ",
             key: "home",
             icon: <Home size={18} />
         },
         {
-            label: "Users",
+            label: "Người dùng",
             key: "users",
             icon: <User size={18} />
         },
         {
-            label: "Products",
+            label: "Sản phẩm",
             key: "products",
             icon: <Package size={18} />
         },
