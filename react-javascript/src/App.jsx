@@ -2,12 +2,12 @@ import { Outlet } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { getAccountUser } from './utils/users.api'
-import { AuthContext } from './context/auth.context'
+import { useAuth } from './hooks/useAuth'
 
 function App() {
-  const { setAuth, appLoading, setAppLoading } = useContext(AuthContext);
+  const { setAuth, appLoading, setAppLoading } = useAuth();
 
   useEffect(() => {
     const fetchAccountUser = async () => {
@@ -16,7 +16,6 @@ function App() {
       const res = await getAccountUser();
 
       if (res && res.account) {
-        console.log(">>> check res: ", res.account);
         setAuth({
           isAuthenticated: true,
           user: {
@@ -31,7 +30,6 @@ function App() {
     }
 
     fetchAccountUser();
-
   }, [])
 
   return (
@@ -41,7 +39,7 @@ function App() {
           <p>Loading...</p>
         </div>
       ) : (
-        <div>
+        <>
           {/* Header */}
           < Header />
 
@@ -51,7 +49,7 @@ function App() {
             {/* Footer */}
             {/* <Footer /> */}
           </main>
-        </div>
+        </>
       )}
     </div>
   )
