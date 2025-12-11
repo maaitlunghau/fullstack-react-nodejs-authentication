@@ -25,7 +25,10 @@ nodejs: xử lí chức năng cho API
 react: 
 	+ giao diện người dùng (Header, Home, Footer, Users, Products, Login, Register)
 	+ giao diện quản trị (Admin Header, Admin Sidebar, Admin Dashboard)
+
 	+ router => DONE
+	+ tích hợp chức năng login / register vào form => In Progress
+	+ fetch API Products / Users => DONE
 	+ theme context 
 	+ sidebar context
 	

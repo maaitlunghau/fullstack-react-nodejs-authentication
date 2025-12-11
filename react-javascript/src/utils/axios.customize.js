@@ -10,15 +10,18 @@ const instance = axios.create({
 // alter defaults after instance has been created
 // add a request interceptor
 instance.interceptors.request.use(function (config) {
+    config.headers.Authorization = `Bearer ${localStorage.getItem("access_token")}`;
     return config
-});
-
-// add a a response interceptor
-instance.interceptors.response.use(function (response) {
-    return response;
 }, function (error) {
     return Promise.reject(error);
 });
 
-export default instance;
+// add a a response interceptor
+instance.interceptors.response.use(function (response) {
+    if (response && response.data) return response.data;
+}, function (error) {
+    if (error?.response?.data) return error?.response?.data
+    return Promise.reject(error);
+});
 
+export default instance;

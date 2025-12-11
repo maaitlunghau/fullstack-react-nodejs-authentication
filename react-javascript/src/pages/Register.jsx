@@ -19,12 +19,43 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ChevronLeftIcon } from "lucide-react"
+import { registerUser } from "@/utils/auth.api"
+import { useState } from "react"
+import { toast } from "sonner";
 
-export default function Login() {
-    const handleSubmit = (e) => {
-        e.preventDefault()
+export default function Register() {
+    const [dataSubmit, setDataSubmit] = useState({
+        username: "",
+        email: "",
+        password: "",
+        role: ""
+    })
+
+    const navigate = useNavigate();
+
+    const handleInputChange = async (e) => {
+        const { name, value } = e.target;
+
+        setDataSubmit((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(dataSubmit);
+
+        try {
+            await registerUser(dataSubmit);
+
+            toast.success("Registered successfully");
+            navigate("/login");
+        } catch (err) {
+            toast.error(err.message);
+        }
     }
 
     return (
@@ -35,7 +66,7 @@ export default function Login() {
                 to={"/"}
             >
                 <ChevronLeftIcon size={16} />
-                Back to home
+                Quay lại trang chủ
             </Link>
 
             {/* Form */}
@@ -48,7 +79,11 @@ export default function Login() {
                         <Field>
                             <FieldLabel>Họ và tên</FieldLabel>
                             <FieldContent>
-                                <Input name="username" placeholder="Nguyễn Văn A" />
+                                <Input
+                                    name="username" placeholder="Nguyễn Văn A"
+                                    value={dataSubmit.username}
+                                    onChange={handleInputChange}
+                                />
                             </FieldContent>
                             <FieldError />
                         </Field>
@@ -57,7 +92,11 @@ export default function Login() {
                         <Field>
                             <FieldLabel>Email</FieldLabel>
                             <FieldContent>
-                                <Input name="email" placeholder="abc@gmail.com" />
+                                <Input
+                                    name="email" placeholder="abc@gmail.com"
+                                    value={dataSubmit.email}
+                                    onChange={handleInputChange}
+                                />
                             </FieldContent>
                             <FieldError />
                         </Field>
@@ -70,6 +109,8 @@ export default function Login() {
                                     name="password"
                                     type="password"
                                     placeholder="••••••••"
+                                    value={dataSubmit.password}
+                                    onChange={handleInputChange}
                                 />
                             </FieldContent>
                             <FieldError />
@@ -79,7 +120,11 @@ export default function Login() {
                         <Field>
                             <FieldLabel>Vai trò</FieldLabel>
                             <FieldContent>
-                                <Select name="role">
+                                <Select
+                                    name="role"
+                                    value={dataSubmit.role}
+                                    onValueChange={(value) => setDataSubmit((prev) => ({ ...prev, role: value }))}
+                                >
                                     <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Chọn vai trò" />
                                     </SelectTrigger>
@@ -95,7 +140,7 @@ export default function Login() {
                     </FieldGroup>
 
                     <Button type="submit" className="w-full h-11 cursor-pointer">
-                        Login
+                        Đăng ký
                     </Button>
                 </FieldSet>
 

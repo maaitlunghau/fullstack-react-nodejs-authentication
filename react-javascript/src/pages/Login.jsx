@@ -10,12 +10,46 @@ import {
     FieldContent,
     FieldError,
 } from "@/components/ui/field"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ChevronLeftIcon } from "lucide-react"
+import { toast } from "sonner";
+import { loginUser } from "@/utils/auth.api"
+import { useState } from "react"
 
 export default function Login() {
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const navigate = useNavigate();
+    const [dataSubmit, setDataSubmit] = useState({
+        email: "",
+        password: ""
+    });
+
+    const handleInputChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+
+        setDataSubmit((prev) => ({
+            ...prev,
+            [name]: value
+        }));
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await loginUser(dataSubmit);
+
+            if (res && res.code === 0) {
+                localStorage.setItem("access_token", res.accessToken);
+                toast.success("Login user successfully");
+                navigate("/");
+            } else {
+                toast.error(res.message);
+            }
+
+        } catch (err) {
+            toast.error(err.message);
+        }
     }
 
     return (
@@ -26,7 +60,7 @@ export default function Login() {
                 to={"/"}
             >
                 <ChevronLeftIcon size={16} />
-                Back to home
+                Quay lại trang chủ
             </Link>
 
             <form onSubmit={handleSubmit}>
@@ -38,7 +72,12 @@ export default function Login() {
                         <Field>
                             <FieldLabel>Email</FieldLabel>
                             <FieldContent>
-                                <Input name="email" placeholder="abc@gmail.com" />
+                                <Input
+                                    name="email"
+                                    placeholder="abc@gmail.com"
+                                    value={dataSubmit.email}
+                                    onChange={handleInputChange}
+                                />
                             </FieldContent>
                             <FieldError />
                         </Field>
@@ -51,6 +90,8 @@ export default function Login() {
                                     name="password"
                                     type="password"
                                     placeholder="••••••••"
+                                    value={dataSubmit.password}
+                                    onChange={handleInputChange}
                                 />
                             </FieldContent>
                             <FieldError />
@@ -71,7 +112,7 @@ export default function Login() {
                     to={"/register"}
                     className="text-gray-600 hover:underline cursor-pointer"
                 >
-                    Bạn đã quên mật khẩu?
+                    Bạn chưa có tài khoản?
                 </Link>
             </div>
         </div >
