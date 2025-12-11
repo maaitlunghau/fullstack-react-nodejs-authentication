@@ -6,14 +6,17 @@ const {
     updateUser,
     deleteUser,
     banUser,
-    UnBanUser
+    UnBanUser,
+    getAccountUser
 } = require("../controllers/user.controller");
+
 const authMiddleware = require("../middlewares/auth.middleware");
 const adminMiddleware = require("../middlewares/admin.middleware");
 
 
 const userRouter = express.Router();
 
+userRouter.get("/account", authMiddleware, getAccountUser);
 userRouter.get("/", authMiddleware, adminMiddleware, getAllUsers);
 userRouter.get("/:id", authMiddleware, adminMiddleware, getSingleUser);
 userRouter.post("/", authMiddleware, adminMiddleware, createNewUser);
