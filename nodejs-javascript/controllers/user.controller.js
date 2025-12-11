@@ -59,6 +59,13 @@ const updateUser = (req, res) => {
     }
 }
 
+const getAccountUser = async (req, res) => {
+    return res.status(200).json({
+        message: "✅ Gotten account user succeed",
+        account: req.userInfo
+    })
+}
+
 const deleteUser = (req, res) => {
     try {
 
@@ -103,6 +110,7 @@ module.exports = {
     getSingleUser,
     createNewUser,
     updateUser,
+    getAccountUser,
     deleteUser,
     banUser,
     UnBanUser

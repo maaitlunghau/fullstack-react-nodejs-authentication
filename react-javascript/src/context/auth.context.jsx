@@ -6,7 +6,7 @@ export const AuthContext = createContext({
         username: "",
         email: "",
         role: "",
-    }
+    },
 });
 
 export const AuthProvider = ({ children }) => {
@@ -16,15 +16,13 @@ export const AuthProvider = ({ children }) => {
             username: "",
             email: "",
             role: "",
-        }
-    })
+        },
+    });
+    const [appLoading, setAppLoading] = useState(false);
 
     return (
-        <AuthContext.Provider value={{
-            auth,
-            setAuth
-        }}>
+        <AuthContext.Provider value={{ auth, setAuth, appLoading, setAppLoading }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};

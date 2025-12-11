@@ -17,7 +17,15 @@ const authMiddleware = (req, res, next) => {
     // verify token
     try {
         const decodeTokenInfo = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        if (decodeTokenInfo) req.info = decodeTokenInfo;
+        if (decodeTokenInfo) {
+            req.userInfo = decodeTokenInfo;
+
+            // req.userInfo = {
+            //     username: decodeTokenInfo.username,
+            //     role: decodeTokenInfo.role,
+            //     createdBy: "maaitlunghau"
+            // }
+        }
 
         next();
 

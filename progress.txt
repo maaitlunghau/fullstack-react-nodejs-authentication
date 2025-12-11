@@ -15,9 +15,13 @@ nodejs: xử lí chức năng cho API
 
 	+ register => DONE
 	+ login	=> (1) => DONE
-	+ logout (2) => Do later
+	+ logout (2) => DONE
 	+ auth middleware + admin middleware (3) => DONE
-	+ store & refresh token (4)
+	+ store & implement get account user when refresh / F5 page token (4) => DONE
+
+	+ refresh token => 
+	+ improve store access token => 
+	
 	+ CRUD User (GET) (6)
 	+ CRUD Product (All) => Gần xong (5)
 
