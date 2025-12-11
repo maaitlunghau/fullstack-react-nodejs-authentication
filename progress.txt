@@ -1,10 +1,8 @@
-mục tiêu sáng nay: cố gắng hoàn thành minin project: 
-
 TOPIC: fullstack react node
 	- Chức năng chính: xử lí authentication
 	- Stack: React (useContext, useReducer) & NodeJS (JWT)
 
-git respository: git remote add origin https://github.com/maaitlunghau/fullstack-react-nodejs-authentication.git
+git respository: https://github.com/maaitlunghau/fullstack-react-nodejs-authentication.git
 
 nodejs: xử lí chức năng cho API
 	+ configure: ejs, router, server, (còn cors, session)
@@ -12,20 +10,21 @@ nodejs: xử lí chức năng cho API
 	+ connect cloudinary => DONE
 	+ models: User, Product => DONE
 	+ ejs: trang Home => DONE
-	+ middlewares: urlencodedParser, jsonParser, authMiddleware, adminMiddlewarem, 
+	+ middlewares: urlencodedParser, jsonParser, authMiddleware, adminMiddleware 
 	(còn upload-File)
 
-	+ register
-	+ login	
-	+ logout
-	+ auth middleware + admin middleware
-	+ store & refresh token
-	+ CRUD User (GET)
-	+ CRUD Product (All)
+	+ register => DONE
+	+ login	=> (1) => DONE
+	+ logout (2) => Do later
+	+ auth middleware + admin middleware (3) => DONE
+	+ store & refresh token (4)
+	+ CRUD User (GET) (6)
+	+ CRUD Product (All) => Gần xong (5)
 
 
 react: 
-	+ giao diện (Header, Home, Footer, Users, Products, Login, Register)
+	+ giao diện người dùng (Header, Home, Footer, Users, Products, Login, Register)
+	+ giao diện quản trị (Admin Header, Admin Sidebar, Admin Dashboard)
 	+ router => DONE
 	+ theme context 
 	+ sidebar context
