@@ -4,7 +4,6 @@ const productRouter = require("./product.route");
 const authRouter = require("./auth.route");
 
 
-// router
 const rootRouter = express.Router();
 
 rootRouter.use("/auth", authRouter);

@@ -8,18 +8,19 @@ const {
     banUser,
     UnBanUser
 } = require("../controllers/user.controller");
+const authMiddleware = require("../middlewares/auth.middleware");
+const adminMiddleware = require("../middlewares/admin.middleware");
 
 
-// router
 const userRouter = express.Router();
 
-userRouter.get("/", getAllUsers);
-userRouter.get("/:id", getSingleUser);
-userRouter.post("/", createNewUser);
-userRouter.put("/:id", updateUser);
-userRouter.delete("/:id", deleteUser);
-userRouter.post("/:id", banUser);
-userRouter.post("/:id", UnBanUser);
+userRouter.get("/", authMiddleware, adminMiddleware, getAllUsers);
+userRouter.get("/:id", authMiddleware, adminMiddleware, getSingleUser);
+userRouter.post("/", authMiddleware, adminMiddleware, createNewUser);
+userRouter.put("/:id", authMiddleware, adminMiddleware, updateUser);
+userRouter.delete("/:id", authMiddleware, adminMiddleware, deleteUser);
+userRouter.post("/:id", authMiddleware, adminMiddleware, banUser);
+userRouter.post("/:id", authMiddleware, adminMiddleware, UnBanUser);
 
 
 module.exports = userRouter;

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const productSchema = new mongoose.Schema({
     proName: {
         type: String,
@@ -23,14 +24,20 @@ const productSchema = new mongoose.Schema({
         required: [true, "Product isStock is required."],
         default: true,
     },
-    imageUrl: {
+    proImageUrl: {
         type: String,
         required: [true, "Product Image Url is required."]
+    },
+    proImagePublicId: {
+        type: String,
+        required: [true, "Product Image PublicId is required."],
     }
 }, {
     timestamps: true,
 });
 
+
 const Product = mongoose.model("Product", productSchema);
+
 
 module.exports = Product;
