@@ -58,7 +58,14 @@ const loginService = async (data) => {
             expiresIn: "30m"
         })
 
-    return accessToken;
+    return {
+        user: {
+            username: user.username,
+            email: user.email,
+            role: user.role,
+        },
+        accessToken
+    }
 }
 
 

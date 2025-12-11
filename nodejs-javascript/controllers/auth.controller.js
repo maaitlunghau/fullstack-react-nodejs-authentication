@@ -24,12 +24,13 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const accessToken = await loginService(req.body);
+        const data = await loginService(req.body);
 
         return res.status(200).json({
             success: true,
             message: "✅ Logged user succeed",
-            accessToken,
+            user: data.user,
+            accessToken: data.accessToken,
             code: 0
         })
 

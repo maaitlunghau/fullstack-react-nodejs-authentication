@@ -1,8 +1,13 @@
-import { Home, LogIn, LogOut, Package, Settings, SignalIcon, User } from "lucide-react"
-import { useState } from "react"
+import { AuthContext } from "@/context/auth.context";
+import { Home, LogIn, OutdentIcon, Package, Settings, SignalIcon } from "lucide-react"
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom";
 
 export default function Header() {
+    const { auth, setAuth } = useContext(AuthContext);
+
+    console.log(">>> auth: ", auth);
+
     const items = [
         {
             label: "Trang chủ",
@@ -10,30 +15,44 @@ export default function Header() {
             icon: <Home size={18} />
         },
         {
-            label: "Người dùng",
-            key: "users",
-            icon: <User size={18} />
-        },
-        {
             label: "Sản phẩm",
             key: "products",
             icon: <Package size={18} />
         },
         {
-            label: "Xìn chào đến với website",
+            label: `Xin chào bạn ${auth?.user?.username}`,
             key: "subMenu",
             icon: <Settings size={18} />,
             children: [
-                {
-                    label: "Đăng nhập",
-                    icon: <LogIn size={18} />,
-                    key: "login",
-                },
-                {
-                    label: "Đăng ký",
-                    icon: <SignalIcon size={18} />,
-                    key: "register",
-                }
+                ...auth.isAuthenticated ? [
+                    {
+                        label: "Đăng xuất",
+                        icon: <OutdentIcon size={18} />,
+                        key: "login",
+                        onClick: () => {
+                            localStorage.removeItem("access_token");
+                            setAuth({
+                                isAuthenticated: false,
+                                user: {
+                                    username: "",
+                                    email: "",
+                                    role: "",
+                                }
+                            })
+                        }
+                    }
+                ] : [
+                    {
+                        label: "Đăng nhập",
+                        icon: <LogIn size={18} />,
+                        key: "login",
+                    },
+                    {
+                        label: "Đăng ký",
+                        icon: <SignalIcon size={18} />,
+                        key: "register",
+                    },
+                ]
             ]
         }
     ]
@@ -74,6 +93,7 @@ export default function Header() {
                                     {item.children.map(child => (
                                         <li key={child.key}>
                                             <Link
+                                                onClick={child.onClick}
                                                 to={`/${child.key}`}
                                                 className="flex items-center justify-start w-full px-3 py-2 text-md gap-3 hover:bg-gray-100 text-gray-600"
                                             >

@@ -14,10 +14,13 @@ import { Link, useNavigate } from "react-router-dom"
 import { ChevronLeftIcon } from "lucide-react"
 import { toast } from "sonner";
 import { loginUser } from "@/utils/auth.api"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { AuthContext } from "@/context/auth.context"
 
 export default function Login() {
     const navigate = useNavigate();
+    const { setAuth } = useContext(AuthContext);
+
     const [dataSubmit, setDataSubmit] = useState({
         email: "",
         password: ""
@@ -41,11 +44,21 @@ export default function Login() {
 
             if (res && res.code === 0) {
                 localStorage.setItem("access_token", res.accessToken);
-                toast.success("Login user successfully");
-                navigate("/");
+                setAuth({
+                    isAuthenticated: true,
+                    user: {
+                        username: res?.user?.username ?? "",
+                        email: res?.user?.email ?? "",
+                        role: res?.user?.role ?? "",
+                    }
+                })
+
             } else {
                 toast.error(res.message);
             }
+
+            toast.success("Login user successfully");
+            navigate("/");
 
         } catch (err) {
             toast.error(err.message);
